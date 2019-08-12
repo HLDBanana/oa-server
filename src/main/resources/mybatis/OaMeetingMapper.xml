@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanergy.out.dao.OaMeetingMapper">
+    <!-- 修改会议室状态 -->
+    <update id="updateMeetingState">
+        update oa_meeting set state = #{state} where id = #{id}
+    </update>
+    <!-- 获取最新插入一条数据的id -->
+    <select id="getMaxId" resultType="java.lang.Integer">
+        select max(id) from oa_meeting
+    </select>
+    <!-- 获取我参与的会议信息 -->
+    <select id="getAttendMeetings" resultType="com.hanergy.out.entity.OaMeeting">
+        select o.* from oa_meeting_attend a, oa_meeting o where
+        a.oa_meeting_id = o.id and a.user_id = #{userId} and o.type = #{type}
+         and o.date = #{date} order by meeting_id,begin_time asc
+    </select>
+
+    <select id="aliveFreeVirMeeting" resultType="com.hanergy.out.entity.OaMeeting">
+        SELECT o.* from oa_meeting o,oa_meeting_set s where o.meeting_id = s.id
+         and s.state = 1  and o.end_time &gt;= #{endTime} and
+        o.begin_time &lt;= #{beginTime} and o.type = 2 and o.state = 0
+        order by o.meeting_name,o.duration
+    </select>
+
+    <!-- 根据会议室id获取会议数据 -->
+    <select id="meetingDate" resultType="java.lang.String">
+        select date from oa_meeting where meeting_id = #{meetingId} group by date
+    </select>
+
+</mapper>

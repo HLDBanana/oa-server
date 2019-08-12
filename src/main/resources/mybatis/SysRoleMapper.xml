@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanergy.out.dao.SysRoleMapper">
+
+    <select id="getRoleByJobnumberAndProject" resultType="com.hanergy.out.entity.SysRole">
+        select r.* from sys_role r,
+        (select ur.role_id from sys_user_role ur,sys_user u where ur.user_id = u.user_id and u.job_number = #{jobNumber}) o
+        where r.role_id = o.role_id and r.project_tag=#{projectTag}
+    </select>
+
+</mapper>

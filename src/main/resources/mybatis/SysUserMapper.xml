@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanergy.out.dao.SysUserMapper">
+
+    <select id="getMeetingAttendUser" resultType="com.hanergy.out.entity.SysUser">
+        select s.* from oa_meeting_attend t , sys_user s
+        where t.user_id = s.user_id and t.oa_meeting_id = #{meetingId}
+         and t.type = #{type}
+    </select>
+</mapper>

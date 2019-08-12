@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanergy.out.dao.OaMeetingSetMapper">
+
+    <!-- 获取实体会议室信息 -->
+    <select id="allOaMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select * from oa_meeting_set order by type,meeting_name limit #{start},#{pageSize}
+    </select>
+
+
+    <select id="getOneOaMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select t.url as image,o.* from (select * from oa_meeting_set where id = #{id}) o
+         LEFT JOIN document t on o.id=t.service_id
+    </select>
+
+    <!-- 获取实体会议室信息 -->
+    <select id="getOaMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select d.name as sysDeptName,s.* from oa_meeting_set s, sys_dept d
+         where d.id = s.sys_dept_id and s.type = 1 and s.state = 1 order by id
+    </select>
+    <!-- 获取虚拟会议室信息 -->
+    <select id="getVirtualMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select * from oa_meeting_set where type = 2 and state = 1 order by meeting_name
+    </select>
+    <select id="powerOaMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select * from oa_meeting_set where type = #{type} and state = 1 and (dept_power LIKE CONCAT('%',#{deptId},'%')
+        or user_power like CONCAT('%',#{userId},'%')) order by meeting_name asc
+    </select>
+    <select id="getPowerPartMeeting" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select * from oa_meeting_set where type = #{type} and state = 1 and
+        (((dept_power is null or dept_power = "") and (user_power is NULL or user_power = ""))
+        or user_power like CONCAT('%',#{userId},'%')) order by meeting_name asc
+    </select>
+    <select id="deptOrUserIsNotNull" resultType="com.hanergy.out.vo.OaMeetingSetVo">
+        select * from oa_meeting_set where type = #{type} and state = 1 and
+        ((dept_power is not null and dept_power &lt;&gt; "") or (user_power is not NULL and user_power &lt;&gt; ""))
+        order by meeting_name asc
+    </select>
+    <select id="getMeetingSetByMeetingId" resultType="com.hanergy.out.entity.OaMeetingSet">
+        select * from oa_meeting_set where id =
+        (select meeting_id from oa_meeting where id = #{id})
+    </select>
+</mapper>
