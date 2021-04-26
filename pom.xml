@@ -19,7 +19,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <commons.fileupload.version>1.2.2</commons.fileupload.version>
-        <commons.io.version>2.5</commons.io.version>
+        <commons.io.version>2.7</commons.io.version>
         <commons.codec.version>1.11</commons.codec.version>
         <commons.configuration.version>1.10</commons.configuration.version>
         <mybatisplus.spring.boot.version>3.0-RC1</mybatisplus.spring.boot.version>
